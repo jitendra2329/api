@@ -1,0 +1,96 @@
+{
+  "name": "order",
+  "description": "order service which is responsible for managing order related to the books",
+  "base_url": "https://nashtechglobal.com",
+  "imports": [
+    {
+      "uri": "https://app.apibuilder.io/apicollective/apibuilder-spec/latest/service.json"
+    },
+    {
+      "uri": "https://app.apibuilder.io/apicollective/apibuilder-common/latest/service.json"
+    },
+    {
+      "uri": "https://app.apibuilder.io/apicollective/apibuilder-generator/latest/service.json"
+    }
+  ],
+
+  "models": {
+
+    "order": {
+      "fields": [
+        { "name": "id", "type": "string" },
+        { "name": "number", "type": "string" },
+        { "name": "items", "type": "item_form" },
+        { "name": "merchant_id", "type": "string" },
+        { "name": "submitted_at", "type": "date-time-iso8601" },
+        { "name": "total", "type": "decimal" }
+      ]
+    },
+    
+    "item_form": {
+      "fields": [
+        { "name": "book_name", "type" : "string" },
+	{ "name": "book_id", "type" : "string" },
+	{ "name": "auther", "type": "string" }
+      ]
+    },
+    
+    "error": {
+      "fields":[
+        { "name": "code", "type": "string" },
+        { "name": "message", "type": "[string]" }
+      ]
+    }
+  },
+
+  "resources": {
+    "order": {
+      "path": "/:merchant_id/orders",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/:number",
+          "responses": {
+            "200": { "type": "order" },
+            "401": { "type": "unit" },
+            "404": { "type": "unit" }
+          }
+        },
+        {
+        "method": "POST",
+          "body": {
+          	"type": "item_form"
+          },
+          "responses": {
+            "200": { "type": "order" },
+            "401": { "type": "unit" },
+            "404": { "type": "unit" },
+            "422": { "type": "error" }
+          }
+        },
+        {
+        "method": "PUT",
+        "path": "/:number",
+        "body": {
+          	"type": "item_form"
+          },
+          "responses": {
+            "200": { "type": "order" },
+            "401": { "type": "unit" },
+            "404": { "type": "unit" },
+            "422": { "type": "error" }
+          }
+        },
+        {
+        "method": "DELETE",
+        "responses":{
+             "200": { "type": "unit" },
+             "401": { "type": "unit" },
+             "404": { "type": "unit" },
+             "422": { "type": "error" }	        
+        }
+        }
+      ]
+    }
+  }
+}
